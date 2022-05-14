@@ -10,7 +10,7 @@
 
 
 解答:
-
+        
 from collections import defaultdict
 
 class Solution:
@@ -22,18 +22,18 @@ class Solution:
         # write your code here
         if not s:
             return 0
-        # use defaultdict to avoid to throw key error
-        match = defaultdict(int)
-        match[s[left]] += 1
-        max_length = 1
         left = 0
         # first char indexed by left param have been added. so start from right index
         right = 1
+        max_length = 1
+        # use defaultdict to avoid to throw key error
+        match = defaultdict(int)
+        match[s[left]] += 1
         # because right is current match char, so it can't exceed the s length
         while right < len(s):
             c = s[right]
             # use match dict to store characters that have been travered
-            # plus left so that remove  previously added character
+            # plus left index so that repeat remove previously added character
             while left < right and match[c] > 0:
                match[s[left]] -= 1
                left += 1
@@ -42,3 +42,4 @@ class Solution:
             max_length = max(max_length, right - left + 1)
             right += 1
         return max_length
+
