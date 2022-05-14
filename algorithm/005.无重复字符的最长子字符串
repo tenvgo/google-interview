@@ -1,0 +1,45 @@
+描述:
+给定一个字符串，请找出其中无重复字符的最长子字符串。
+输入: "abcabcbb"
+输出: 3
+解释: 最长子串是 "abc".
+
+输入: "bbbbb"
+输出: 1
+解释: 最长子串是 "b".
+
+
+解答:
+        
+from collections import defaultdict
+
+class Solution:
+    """
+    @param s: a string
+    @return: an integer
+    """
+    def length_of_longest_substring(self, s: str) -> int:
+        # write your code here
+        if not s:
+            return 0
+        left = 0
+        # first char indexed by left param have been added. so start from right index
+        right = 1
+        max_length = 1
+        # use defaultdict to avoid to throw key error
+        match = defaultdict(int)
+        match[s[left]] += 1
+        # because right is current match char, so it can't exceed the s length
+        while right < len(s):
+            c = s[right]
+            # use match dict to store characters that have been travered
+            # plus left index so that repeat remove previously added character
+            while left < right and match[c] > 0:
+               match[s[left]] -= 1
+               left += 1
+            # add character indexed by the right
+            match[c] += 1
+            max_length = max(max_length, right - left + 1)
+            right += 1
+        return max_length
+
